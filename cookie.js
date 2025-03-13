@@ -1,103 +1,119 @@
-// script.js
-let score = 0;
-let cookiesPerSecond = 0;
+class CookieClicker {
+    constructor() {
+        this.score = 0;
+        this.cookiesPerSecond = 0;
 
-const scoreDisplay = document.getElementById("score");
-const cpsDisplay = document.getElementById("cookie-ps")
-const cookieButton = document.getElementById("cookie-btn");
+        this.scoreDisplay = document.getElementById("score");
+        this.cpsDisplay = document.getElementById("cookie-ps");
+        this.cookieButton = document.getElementById("cookie-btn");
+        this.resetButton = document.getElementById("reset-game");
 
-const smallAutoClickerButton = document.getElementById("small-autoclicker");
-const bigAutoClickerButton = document.getElementById("big-autoclicker");
-const megaAutoClickerButton = document.getElementById("mega-autoclicker");
-const goldenCookieButton = document.getElementById("golden-cookie");
-const cookieFactoryButton = document.getElementById("cookie-factory");
+        this.upgrades = [
+            { button: "clicker", cost: 50, cps: 1 },
+            { button: "grandma", cost: 200, cps: 5 },
+            { button: "farm", cost: 1000, cps: 20 },
+            { button: "mine", cost: 5000, cps: 100 },
+            { button: "factory", cost: 20000, cps: 500 }
+        ];
 
-cookieButton.addEventListener("click", () => {
-    score++;
-    updateScore();
-});
-
-// Auto-clicker upgrade functions
-smallAutoClickerButton.addEventListener("click", () => {
-    buyAutoClicker(50, 1);
-});
-
-bigAutoClickerButton.addEventListener("click", () => {
-    buyAutoClicker(200, 5);
-});
-
-megaAutoClickerButton.addEventListener("click", () => {
-    buyAutoClicker(1000, 20);
-});
-
-goldenCookieButton.addEventListener("click", () => {
-    buyAutoClicker(5000, 100);
-});
-
-cookieFactoryButton.addEventListener("click", () => {
-    buyAutoClicker(20000, 500);
-});
-
-//Loads saved game
-function loadGame() {
-    let savedScore = localStorage.getItem("score");
-    let savedCPS = localStorage.getItem("cookiePerSecond");
-
-    if (savedScore !== null) {
-        score = parseInt(savedScore);
+        this.loadGame();
+        this.setupEventListeners();
+        this.startAutoIncrement();
     }
 
-    if (savedCPS !== null) {
-        cookiesPerSecond = parseInt(savedCPS);
+    setupEventListeners() {
+        this.cookieButton.addEventListener("click", () => this.incrementScore());
+        this.resetButton.addEventListener("click", () => this.resetGame());
+
+        this.upgrades.forEach(upgrade => {
+            const button = document.getElementById(upgrade.button);
+            if (button) {
+                button.addEventListener("click", () => this.buyAutoClicker(upgrade.cost, upgrade.cps));
+            }
+        });
     }
 
-    updateScore();
-}
-
-
-// Save game
-function saveGame(){
-    localStorage.setItem("score", score);
-    localStorage.setItem("cookiePerSecond", cookiesPerSecond)
-}
-
-// Auto-clicker purchase function
-function buyAutoClicker(cost, cps) {
-    if (score >= cost) {
-        score -= cost;
-        cookiesPerSecond += cps;
-        updateScore();
-        saveGame();
-    } else {
-        alert("Not enough cookies!");
+    incrementScore() {
+        this.score++;
+        this.updateScore();
+        this.saveGame();
     }
-}
 
-// Auto-clicker interval
-setInterval(() => {
-    score += cookiesPerSecond;
-    updateScore();
-    saveGame();
-}, 1000);  // Every second
-
-// Update the cookies per second score
-function updateScore() {
-    scoreDisplay.textContent = `${score} Cookies`;
-    cpsDisplay.textContent = `Cookies per second: ${cookiesPerSecond}`;
-}
-
-const resetButton = document.getElementById("reset-game");
-
-// Reset game function
-resetButton.addEventListener("click", () => {
-    if (confirm("Are you sure you want to reset your progress?")) {
-        localStorage.removeItem("score");
-        localStorage.removeItem("cookiesPerSecond");
-
-        score = 0;
-        cookiesPerSecond = 0;
-        updateScore();
+    buyAutoClicker(cost, cps) {
+        if (this.score >= cost) {
+            this.score -= cost;
+            this.cookiesPerSecond += cps;
+            this.upgrades.cost = Math.floor(1.5);
+            this.updateScore();
+            this.saveGame();
+        } else {
+            alert("Not enough cookies!");
+        }
     }
-});
 
-loadGame();
+    startAutoIncrement() {
+        setInterval(() => {
+            this.score += this.cookiesPerSecond;
+            this.updateScore();
+            this.saveGame();
+        }, 1000);
+    }
+
+    updateScore() {
+        this.scoreDisplay.textContent = `${this.formatNumber(this.score)}`;
+        this.cpsDisplay.textContent = `${this.formatNumber(this.cookiesPerSecond)} cookies per second`;
+    }
+
+    formatNumber(num) {
+        if (num >= 1_000_000) {
+            return new Intl.NumberFormat("en-US").format(Math.floor(num / 1_000)) + " million";
+        } else {
+            return num.toLocaleString("en-US");
+        }
+    }
+
+    saveGame() {
+        localStorage.setItem("score", this.score);
+        localStorage.setItem("cookiesPerSecond", this.cookiesPerSecond);
+    }
+
+    loadGame() {
+        let savedScore = localStorage.getItem("score");
+        let savedCPS = localStorage.getItem("cookiesPerSecond");
+
+        if (savedScore !== null) this.score = parseInt(savedScore);
+        if (savedCPS !== null) this.cookiesPerSecond = parseInt(savedCPS);
+
+        this.updateScore();
+    }
+
+    resetGame() {
+        if (confirm("Are you sure you want to reset your progress?")) {
+            localStorage.removeItem("score");
+            localStorage.removeItem("cookiesPerSecond");
+
+            this.score = 0;
+            this.cookiesPerSecond = 0;
+            this.updateScore();
+        }
+    }
+
+}
+
+// class Counter {
+//     counter;
+//     cost;
+//     clickerID;
+//     buttonID;
+//     game;
+//
+//     constructor() {
+//         this.counter = 0;
+//         this.cost = 1
+//         this.clickerID = clickerID;
+//         this.buttonID = buttonID;
+//         this.game = game;
+//     }
+// }
+
+document.addEventListener("DOMContentLoaded", () => new CookieClicker());
