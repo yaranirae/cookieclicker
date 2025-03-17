@@ -1,20 +1,72 @@
-class CookieClicker {
+class Upgrade {
+    constructor(name, cost, cps) {
+        this.name = name;
+        this.cost = cost;
+        this.cps = cps;
+    }
+
+    increaseCost() {
+        this.cost = Math.floor(this.cost * 1.3);
+    }
+
+    getDescription() {
+        return `${this.name} - Cost: ${this.cost}`;
+    }
+}
+
+class Clicker extends Upgrade {
+    constructor() {
+        super("Clicker", 50, 1);
+    }
+}
+
+class Grandma extends Upgrade {
+    constructor() {
+        super("Grandma", 200, 5);
+    }
+}
+
+class Farm extends Upgrade {
+    constructor() {
+        super("Farm", 1000, 20);
+    }
+}
+
+class Mine extends Upgrade {
+    constructor() {
+        super("Mine", 5000, 100);
+    }
+}
+
+class Factory extends Upgrade {
+    constructor() {
+        super("Factory", 20000, 500);
+    }
+}
+
+class Bank extends Upgrade {
+    constructor() {
+        super("Bank", 50000, 1000);
+    }
+}
+
+class Game {
     constructor() {
         this.score = 0;
         this.cookiesPerSecond = 0;
+        this.upgrades = [
+            new Clicker(),
+            new Grandma(),
+            new Farm(),
+            new Mine(),
+            new Factory(),
+            new Bank()
+        ];
 
         this.scoreDisplay = document.getElementById("score");
         this.cpsDisplay = document.getElementById("cookie-ps");
         this.cookieButton = document.getElementById("cookie-btn");
         this.resetButton = document.getElementById("reset-game");
-
-        this.upgrades = [
-            { button: "clicker", cost: 50, cps: 1 },
-            { button: "grandma", cost: 200, cps: 5 },
-            { button: "farm", cost: 1000, cps: 20 },
-            { button: "mine", cost: 5000, cps: 100 },
-            { button: "factory", cost: 20000, cps: 500 }
-        ];
 
         this.loadGame();
         this.setupEventListeners();
@@ -26,9 +78,10 @@ class CookieClicker {
         this.resetButton.addEventListener("click", () => this.resetGame());
 
         this.upgrades.forEach(upgrade => {
-            const button = document.getElementById(upgrade.button);
+            const button = document.getElementById(upgrade.name.toLowerCase());
             if (button) {
-                button.addEventListener("click", () => this.buyAutoClicker(upgrade.cost, upgrade.cps));
+                button.addEventListener("click", () => this.buyUpgrade(upgrade));
+                button.textContent = upgrade.getDescription();
             }
         });
     }
@@ -39,16 +92,26 @@ class CookieClicker {
         this.saveGame();
     }
 
-    buyAutoClicker(cost, cps) {
-        if (this.score >= cost) {
-            this.score -= cost;
-            this.cookiesPerSecond += cps;
-            this.upgrades.cost = Math.floor(1.5);
+    buyUpgrade(upgrade) {
+        if (this.score >= upgrade.cost) {
+            this.score -= upgrade.cost;
+            this.cookiesPerSecond += upgrade.cps;
+            upgrade.increaseCost();
+            this.updateUpgradeButtons();
             this.updateScore();
             this.saveGame();
         } else {
             alert("Not enough cookies!");
         }
+    }
+
+    updateUpgradeButtons() {
+        this.upgrades.forEach(upgrade => {
+            const button = document.getElementById(upgrade.name.toLowerCase());
+            if (button) {
+                button.textContent = upgrade.getDescription();
+            }
+        });
     }
 
     startAutoIncrement() {
@@ -60,7 +123,7 @@ class CookieClicker {
     }
 
     updateScore() {
-        this.scoreDisplay.textContent = `${this.formatNumber(this.score)}`;
+        this.scoreDisplay.textContent = this.formatNumber(this.score);
         this.cpsDisplay.textContent = `${this.formatNumber(this.cookiesPerSecond)} cookies per second`;
     }
 
@@ -85,6 +148,7 @@ class CookieClicker {
         if (savedCPS !== null) this.cookiesPerSecond = parseInt(savedCPS);
 
         this.updateScore();
+        this.updateUpgradeButtons();
     }
 
     resetGame() {
@@ -95,25 +159,9 @@ class CookieClicker {
             this.score = 0;
             this.cookiesPerSecond = 0;
             this.updateScore();
+            this.updateUpgradeButtons();
         }
     }
-
 }
 
-// class Counter {
-//     counter;
-//     cost;
-//     clickerID;
-//     buttonID;
-//     game;
-//
-//     constructor() {
-//         this.counter = 0;
-//         this.cost = 1
-//         this.clickerID = clickerID;
-//         this.buttonID = buttonID;
-//         this.game = game;
-//     }
-// }
-
-document.addEventListener("DOMContentLoaded", () => new CookieClicker());
+document.addEventListener("DOMContentLoaded", () => new Game());
