@@ -10,12 +10,49 @@ body {
     height: 100vh;
 }
 
+.shop {
+    margin-top: 10px ;
+    max-height: 350px;
+    overflow-y: auto;
+    width: 325px;
+    height: 320px;
+    padding: 10px;
+    background: lightpink;
+    border-radius: 10px;
+}
+
+.shop h1 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.shop-button {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+}
+
+.shop-button button {
+    color: white;
+    border: deeppink 1px dotted;
+    border-radius: 5px ;
+    width: 150px;
+    padding: 5px;
+    background-color: #fd6c84;
+}
+
+.upgrade {
+   font-size: medium;
+}
 .upgrades button {
     width: 300px;
     padding: 10px;
     margin: 7px;
     border: none;
-    background-color: #575555;
+    background-color: #fd6c84;
     color: #ffffff;
     border-radius: 5px;
     transition: background-color 0.2s ease;
@@ -26,15 +63,16 @@ body {
 }
 
 .upgrades button:hover {
-    background-color: #7a7878;
+    background-color: #fd8498;
 }
 
 .upgrades {
+    /*transform: translateY(100%);*/
     max-height: 350px;
     overflow-y: auto;
     width: 325px;
     padding: 10px;
-    background: transparent;
+    background: pink;
     border-radius: 10px;
 }
 
@@ -59,9 +97,9 @@ body {
 .right-side {
     display: flex;
     flex-direction: column;
-    /*justify-content: space-between;*/
     align-items: center;
-    background-color: #fdf2dc;
+    gap: 10px;
+    background-color: #fff;
     width: 450px;
     height: 100%;
 }
@@ -171,4 +209,3 @@ body {
     padding: 10px;
     border: #f3d59a solid 3px;
 }
-
