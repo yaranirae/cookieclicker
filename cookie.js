@@ -1,11 +1,14 @@
 class Upgrade {
     constructor(cost, cps, game, buttonId) {
+        this.baseCost = cost;
         this.cost = cost;
         this.cps = cps;
         this.game = game;
         this.button = document.getElementById(buttonId);
         this.name = buttonId.replace(/([A-Z])/g, ' $1').trim();
+        this.level = 0;
 
+        this.loadUpgrade();
 
         if (this.button) {
             this.button.addEventListener("click", () => this.purchase());
@@ -17,9 +20,12 @@ class Upgrade {
         if (this.game.score >= this.cost) {
             this.game.score -= this.cost;
             this.game.cookiesPerSecond += this.cps;
+            this.level++;
             this.cost = Math.floor(this.cost * 1.3);
+
             this.updateButtonText();
             this.game.updateGameState();
+            this.saveUpgrade();
         } else {
             alert("Not enough cookies!");
         }
@@ -27,10 +33,35 @@ class Upgrade {
 
     updateButtonText() {
         if (this.button) {
-            this.button.innerHTML = `${this.name} - Cost: ${this.cost} 🍪`;
+            this.button.innerHTML = `${this.name}  - Cost: ${this.cost} 🍪 <br> (Level ${this.level})`;
         }
     }
+
+    saveUpgrade() {
+        const upgradeData = {
+            level: this.level,
+            cost: this.cost
+        };
+        localStorage.setItem(`upgrade_${this.name}`, JSON.stringify(upgradeData));
+    }
+
+    loadUpgrade() {
+        const savedData = JSON.parse(localStorage.getItem(`upgrade_${this.name}`));
+        if (savedData) {
+            this.level = savedData.level || 0;
+            this.cost = savedData.cost || this.baseCost;
+        }
+    }
+
+    resetUpgrade() {
+        this.level = 0;
+        this.cost = this.baseCost;
+        localStorage.removeItem(`upgrade_${this.name}`);
+        this.updateButtonText();
+    }
 }
+
+
 
 class ClickerUpgrade extends Upgrade {
     constructor(game) {
@@ -68,6 +99,24 @@ class BankUpgrade extends Upgrade {
     }
 }
 
+class CastleUpgrade extends Upgrade {
+    constructor(game) {
+        super(10000, 2000, game, "Cookie Castle");
+    }
+}
+
+class CityUpgrade extends Upgrade {
+    constructor(game) {
+        super(20000, 5000, game, "Cookie City");
+    }
+}
+
+class CountryUpgrade extends Upgrade {
+    constructor(game) {
+        super(50000, 5000, game, "Cookie Country");
+    }
+}
+
 class CookieClicker {
     constructor() {
         this.score = 0;
@@ -83,7 +132,10 @@ class CookieClicker {
             new FarmUpgrade(this),
             new MineUpgrade(this),
             new FactoryUpgrade(this),
-            new BankUpgrade(this)
+            new BankUpgrade(this),
+            new CastleUpgrade(this),
+            new CityUpgrade(this),
+            new CountryUpgrade(this)
         ];
 
         this.loadGame();
@@ -126,6 +178,9 @@ class CookieClicker {
             GameStorage.resetGame();
             this.score = 0;
             this.cookiesPerSecond = 0;
+
+            this.upgrades.forEach(upgrade => upgrade.resetUpgrade());
+
             this.updateGameState();
         }
     }
@@ -147,7 +202,14 @@ class GameStorage {
     static resetGame() {
         localStorage.removeItem("score");
         localStorage.removeItem("cookiesPerSecond");
+
+        Object.keys(localStorage).forEach(key => {
+            if (key.startsWith("upgrade_")) {
+                localStorage.removeItem(key);
+            }
+        });
     }
+
 }
 
 class UIHandler {
