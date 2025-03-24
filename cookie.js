@@ -12,7 +12,7 @@ class Upgrade {
 
         if (this.button) {
             this.button.addEventListener("click", () => this.purchase());
-            this.updateButtonText();
+            this.updateButtonState();
         }
     }
 
@@ -22,8 +22,9 @@ class Upgrade {
             this.game.cookiesPerSecond += this.cps;
             this.level++;
             this.cost = Math.floor(this.cost * 1.3);
+            this.cps = Math.floor(this.cps * 1.2);
 
-            this.updateButtonText();
+            this.updateButtonState();
             this.game.updateGameState();
             this.saveUpgrade();
         } else {
@@ -31,9 +32,17 @@ class Upgrade {
         }
     }
 
-    updateButtonText() {
+    updateButtonState() {
         if (this.button) {
-            this.button.innerHTML = `${this.name}  - Cost: ${this.cost} 🍪 <br> (Level ${this.level})`;
+            this.button.innerHTML = `${this.name} - Cost: ${Upgrade.formatNumber(this.cost)} 🍪 <br> (Level ${this.level})`;
+
+            if (this.game.score >= this.cost) {
+                this.button.style.backgroundColor = "#fd6c84"; // Normal color
+                this.button.disabled = false;
+            } else {
+                this.button.style.backgroundColor = "#f892a3"; // Grayed out when unavailable
+                this.button.disabled = true;
+            }
         }
     }
 
@@ -53,13 +62,23 @@ class Upgrade {
         }
     }
 
+    static formatNumber(num) {
+        if (num >= 1_000_000) {
+            return (num / 1_000_000).toFixed(1) + " million";
+        } else {
+            return num.toLocaleString("en-US");
+        }
+    }
+
     resetUpgrade() {
         this.level = 0;
         this.cost = this.baseCost;
         localStorage.removeItem(`upgrade_${this.name}`);
-        this.updateButtonText();
+        this.updateButtonState();
     }
 }
+
+
 
 
 
@@ -156,6 +175,9 @@ class CookieClicker {
     updateGameState() {
         this.ui.updateScore(this.score);
         this.ui.updateCPS(this.cookiesPerSecond);
+
+        this.upgrades.forEach(upgrade => upgrade.updateButtonState());
+
         GameStorage.saveGame(this.score, this.cookiesPerSecond);
     }
 
@@ -178,9 +200,7 @@ class CookieClicker {
             GameStorage.resetGame();
             this.score = 0;
             this.cookiesPerSecond = 0;
-
             this.upgrades.forEach(upgrade => upgrade.resetUpgrade());
-
             this.updateGameState();
         }
     }
@@ -230,5 +250,6 @@ class UIHandler {
         return num >= 1_000_000 ? new Intl.NumberFormat("en-US").format(Math.floor(num / 1_000)) + " million" : num.toLocaleString("en-US");
     }
 }
+
 
 document.addEventListener("DOMContentLoaded", () => new CookieClicker());

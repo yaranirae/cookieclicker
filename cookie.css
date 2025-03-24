@@ -29,19 +29,34 @@ body {
 
 .shop-button {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     justify-content: center;
     align-items: center;
-    gap: 5px;
+    gap: 10px;
 }
 
 .shop-button button {
     color: white;
-    border: deeppink 1px dotted;
+    border: #fd4767 4px dotted;
     border-radius: 5px ;
-    width: 150px;
+    width: 60px;
     padding: 5px;
     background-color: #fd6c84;
+}
+
+.shop-button button:hover {
+    background-color: #fd8498;
+}
+
+.shop-button span {
+    font-size: 30px;
+}
+
+.shop-row-one {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
 }
 
 .upgrade {
@@ -136,6 +151,20 @@ body {
 }
 
 
+.bakery-name {
+    margin-bottom: 10px;
+    font-weight: bold;
+    font-size: large;
+    width: 200px;
+    height: 20px;
+    background-color: #d3ac5e;
+    border: transparent;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
 #cookie-btn {
     transform: translateY(10%);
     font-size: 50px;
@@ -196,16 +225,5 @@ body {
     align-items: center;
 }
 
-.achievements {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-evenly;
-    align-items: center;
-    gap: 10px;
-}
 
-.achievements span {
-    background-color: #fdf2dc;
-    padding: 10px;
-    border: #f3d59a solid 3px;
-}
+
