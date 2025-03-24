@@ -30,7 +30,7 @@ class Upgrade {
         } else {
             alert("Not enough cookies!");
         }
-    }
+    } // Kopen van upgrades/auto-clicker
 
     updateButtonState() {
         if (this.button) {
@@ -44,7 +44,7 @@ class Upgrade {
                 this.button.disabled = true;
             }
         }
-    }
+    } // Verandert kleur als er genoeg cookies zijn om een auto-clicker te kopen
 
     saveUpgrade() {
         const upgradeData = {
@@ -52,7 +52,7 @@ class Upgrade {
             cost: this.cost
         };
         localStorage.setItem(`upgrade_${this.name}`, JSON.stringify(upgradeData));
-    }
+    } // Code voor de level upgrade
 
     loadUpgrade() {
         const savedData = JSON.parse(localStorage.getItem(`upgrade_${this.name}`));
@@ -60,7 +60,7 @@ class Upgrade {
             this.level = savedData.level || 0;
             this.cost = savedData.cost || this.baseCost;
         }
-    }
+    } // Code voor de level upgrade
 
     static formatNumber(num) {
         if (num >= 1_000_000) {
@@ -68,15 +68,15 @@ class Upgrade {
         } else {
             return num.toLocaleString("en-US");
         }
-    }
+    } // Zodat de getallen i.p.v 1000, 1,000 zijn
 
     resetUpgrade() {
         this.level = 0;
         this.cost = this.baseCost;
         localStorage.removeItem(`upgrade_${this.name}`);
         this.updateButtonState();
-    }
-}
+    } // Code voor de level upgrade
+} // Class voor de upgrades
 
 
 
@@ -86,55 +86,55 @@ class ClickerUpgrade extends Upgrade {
     constructor(game) {
         super(50, 1, game, "Cookie Clicker");
     }
-}
+} // Een auto-clicker upgrade
 
 class GrandmaUpgrade extends Upgrade {
     constructor(game) {
         super(200, 5, game, "Cookie Grandma");
     }
-}
+} // Een auto-clicker upgrade
 
 class FarmUpgrade extends Upgrade {
     constructor(game) {
         super(500, 20, game, "Cookie Farm");
     }
-}
+} // Een auto-clicker upgrade
 
 class MineUpgrade extends Upgrade {
     constructor(game) {
         super(1000, 100, game, "Cookie Mine");
     }
-}
+} // Een auto-clicker upgrade
 
 class FactoryUpgrade extends Upgrade {
     constructor(game) {
         super(2000, 500, game, "Cookie Factory");
     }
-}
+} // Een auto-clicker upgrade
 
 class BankUpgrade extends Upgrade {
     constructor(game) {
         super(5000, 1000, game, "Cookie Bank");
     }
-}
+} // Een auto-clicker upgrade
 
 class CastleUpgrade extends Upgrade {
     constructor(game) {
         super(10000, 2000, game, "Cookie Castle");
     }
-}
+} // Een auto-clicker upgrade
 
 class CityUpgrade extends Upgrade {
     constructor(game) {
         super(20000, 5000, game, "Cookie City");
     }
-}
+} // Een auto-clicker upgrade
 
 class CountryUpgrade extends Upgrade {
     constructor(game) {
         super(50000, 5000, game, "Cookie Country");
     }
-}
+} // Een auto-clicker upgrade
 
 class CookieClicker {
     constructor() {
@@ -204,7 +204,7 @@ class CookieClicker {
             this.updateGameState();
         }
     }
-}
+} // Class voor de game
 
 class GameStorage {
     static saveGame(score, cookiesPerSecond) {
@@ -230,7 +230,7 @@ class GameStorage {
         });
     }
 
-}
+} // Class voor save, reset en share game
 
 class UIHandler {
     constructor() {
@@ -249,7 +249,7 @@ class UIHandler {
     static formatNumber(num) {
         return num >= 1_000_000 ? new Intl.NumberFormat("en-US").format(Math.floor(num / 1_000)) + " million" : num.toLocaleString("en-US");
     }
-}
+} // Class over cookies per second, 1,000 cijfers voor de cookie
 
 
 document.addEventListener("DOMContentLoaded", () => new CookieClicker());
