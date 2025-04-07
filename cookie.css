@@ -18,6 +18,302 @@ body {
     align-items: center;
 }
 
+/* BEGIN LINKER KANT VAN WEBSITE CSS*/
+.bakery-name {
+    margin-bottom: 10px;
+    font-weight: bold;
+    font-size: large;
+    width: 200px;
+    height: 20px;
+    background: transparent;
+    box-shadow: rgba(0, 0, 0, 0.24) 0 3px 8px;
+    border-radius: 15px;
+    border: transparent;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.bakery-name input {
+    border: none;
+    outline: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#cookie-btn {
+    transform: translateY(10%);
+    font-size: 50px;
+    width: 250px;
+    height: 250px;
+    border: none;
+    background: none;
+    cursor: pointer;
+    transition: transform 0.1s ease;
+}
+
+#cookie-btn:active {
+    transform: scale(0.85);
+}
+
+.cookie {
+    background-color: #fdf2dc;
+    width: 450px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+}
+
+.cookies {
+    font-weight: 600;
+    font-size: x-large;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.cookie-score {
+    font-weight: 600;
+    font-size: 27px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.cookie-psc {
+    font-size: 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+/* EIND LINKER KANT VAN WEBSITE*/
+
+/* BEGIN MIDDEN VAN WEBSITE CSS*/
+
+.board {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 500px;
+    overflow-y: auto;
+    padding: 10px;
+    max-height: 300px;
+    background: lightpink;
+    border-radius: 10px;
+}
+
+.board::-webkit-scrollbar {
+    width: 10px;
+}
+
+.board::-webkit-scrollbar-track {
+    background: transparent;
+    border-radius: 10px;
+}
+
+.board::-webkit-scrollbar-thumb {
+    background: transparent;
+    border-radius: 10px;
+}
+
+.board::-webkit-scrollbar-thumb:hover {
+    background: transparent;
+}
+
+.achievement.locked {
+    color: #832333;
+    opacity: 0.5;
+}
+
+.achievement.unlocked {
+    color: #fd244a;
+    font-weight: bold;
+    opacity: 1;
+    animation: pop 0.5s ease-out;
+}
+
+@keyframes pop {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); }
+}
+
+.board p {
+    width: 400px;
+    padding: 10px;
+    margin: 7px;
+    border: none;
+    background-color: #fd6c84;
+    color: #ffffff;
+    border-radius: 5px;
+}
+
+.cookienews {
+    background-color: #fad2d9;
+    width: 520px;
+    border-radius: 10px;
+    color: #fd244a;
+    overflow: hidden;
+    white-space: nowrap;
+    /*box-shadow: 0 2px 4px rgba(0,0,0,0.3);*/
+    padding: 10px 0;
+}
+.ticker {
+    display: inline-block;
+    padding-left: 100%;
+    animation: scroll 20s linear infinite;
+}
+@keyframes scroll {
+    from { transform: translateX(0%); }
+    to { transform: translateX(-100%); }
+}
+.ticker span {
+    margin-right: 30px;
+}
+
+
+section {
+    position: relative;
+    width: 630px;
+    height: 100vh;
+    background: #ffe4c0;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+section .set {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
+
+section .set div {
+    position: absolute;
+    display: block;
+    font-size: 20px;
+}
+
+section .set div:nth-child(1) {
+    left: 20%;
+    animation: animate 15s linear infinite;
+    animation-delay: -7s;
+}
+section .set div:nth-child(2) {
+    left: 50%;
+    animation: animate 20s linear infinite;
+    animation-delay: -5s;
+}
+section .set div:nth-child(3) {
+    left: 70%;
+    animation: animate 20s linear infinite;
+    animation-delay: 0s;
+}
+section .set div:nth-child(4) {
+    left: 0;
+    animation: animate 15s linear infinite;
+    animation-delay: -5s;
+}
+section .set div:nth-child(5) {
+    left: 85%;
+    animation: animate 18s linear infinite;
+    animation-delay: -10s;
+}
+section .set div:nth-child(6) {
+    left: 0;
+    animation: animate 12s linear infinite;
+    animation-delay: -10s;
+}
+section .set div:nth-child(7) {
+    left: 15%;
+    animation: animate 14s linear infinite;
+}
+section .set div:nth-child(8) {
+    left: 60%;
+    animation: animate 15s linear infinite;
+}
+@keyframes animate {
+    0%
+    {
+        opacity: 0;
+        top: -10%;
+        transform: translateX(20px) rotate(0deg);
+    }
+    10%
+    {
+        opacity: 1;
+    }
+    20%
+    {
+        transform: translateX(-20px) rotate(45deg);
+    }
+    40%
+    {
+        transform: translateX(-20px) rotate(90deg);
+    }
+    60%
+    {
+        transform: translateX(20px) rotate(180deg);
+    }
+    80%
+    {
+        transform: translateX(-20px) rotate(180deg);
+    }
+    100%
+    {
+        top: 110%;
+        transform: translateX(-20px) rotate(225deg);
+    }
+}
+
+.game-choices {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+}
+.reset-game {
+    width: 120px;
+    padding: 3px;
+    background-color: #ccad70;
+    color: white;
+    transition: background-color 0.2s ease;
+    border-radius: 2px;
+    border: none;
+}
+
+.reset-game:hover {
+    background-color: #e5c88f;
+}
+
+.click-upgrades {
+    transform: translateY(100%);
+}
+
+.click-upgrades button {
+    width: 50px;
+    height: 50px;
+}
+
+.upgrade-place {
+    font-size: 25px;
+}
+
+/*EIND MIDDEN VAN WEBSITE CSS*/
+
 /* BEGIN RECHTER KANT VAN WEBSITE CSS*/
 
 /* BEGIN SHOP CSS*/
@@ -40,7 +336,7 @@ body {
 
 .shop-button {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     gap: 10px;
@@ -65,7 +361,7 @@ body {
 
 .shop-row-one {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
 }
@@ -134,110 +430,16 @@ body {
     flex-direction: column;
     align-items: center;
     gap: 10px;
-    background-color: #fff;
+    background-color: #fad2d9;
     width: 450px;
     height: 100%;
 }
 
 /* EIND RECHTER KANT VAN WEBSITE CSS*/
 
-/* BEGIN MIDDEN VAN WEBSITE CSS*/
-.reset-game {
-    width: 120px;
-    padding: 3px;
-    background-color: #ccad70;
-    color: white;
-    transition: background-color 0.2s ease;
-    border-radius: 2px;
-    border: none;
-}
-
-.reset-game:hover {
-    background-color: #e5c88f;
-}
-
-.click-upgrades {
-    transform: translateY(100%);
-}
-
-.click-upgrades button {
-    width: 50px;
-    height: 50px;
-}
-
-.upgrade-place {
-    font-size: 25px;
-}
-
-/*EIND MIDDEN VAN WEBSITE CSS*/
-
-/* BEGIN LINKER KANT VAN WEBSITE CSS*/
-.bakery-name {
-    margin-bottom: 10px;
-    font-weight: bold;
-    font-size: large;
-    width: 200px;
-    height: 20px;
-    background-color: #d3ac5e;
-    border: transparent;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
 
 
-#cookie-btn {
-    transform: translateY(10%);
-    font-size: 50px;
-    width: 250px;
-    height: 250px;
-    border: none;
-    background: none;
-    cursor: pointer;
-    transition: transform 0.1s ease;
-}
 
-#cookie-btn:active {
-    transform: scale(0.85);
-}
-
-.cookie {
-    background-color: #fdf2dc;
-    width: 450px;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-
-}
-
-.cookies {
-    font-weight: 600;
-    font-size: x-large;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
-
-.cookie-score {
-    font-weight: 600;
-    font-size: 27px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
-
-.cookie-psc {
-    font-size: 15px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
-/* EIND LINKER KANT VAN WEBSITE*/
 
 
 

@@ -11,7 +11,7 @@
 <div class="game-container">
     <div class="cookie">
         <label>
-<!--            <input type="text" class="bakery-name">-->
+            <input type="text" class="bakery-name" placeholder="Bakery Name" required>
         </label>
         <div id="score" class="cookie-score">0</div>
         <div class="cookies">cookies</div>
@@ -19,14 +19,44 @@
         <img src="img/cookie.png" alt="" id="cookie-btn">
     </div>
     <div class="achievements">
-
-        <div class="options">
-            <div class="game-choices">
-                <button id="save-game" class="reset-game">Save Game :)</button>
-                <button id="reset-game" class="reset-game">Reset Game :(</button>
-                <button id="share-game" class="reset-game">Share Game :)</button>
+        <section>
+            <div class="set">
+                <div>🍪</div>
+                <div>🍪</div>
+                <div>🍪</div>
+                <div>🍪</div>
+                <div>🍪</div>
+                <div>🍪</div>
+                <div>🍪</div>
+                <div>🍪</div>
             </div>
-        </div>
+            <h2>🏆</h2>
+            <div class="board">
+                <p id="achievement-click" class="achievement locked">First Click! </p>
+                <p id="achievement-1k" class="achievement locked">Cookie Fanatic (1.000 cookies 🍪)</p>
+                <p id="achievement-grandma" class="achievement locked">Baker's Apprentice (Buy Grandma)</p>
+                <p id="achievement-10k" class="achievement locked"> Cookie Obsessed (10.000 cookies 🍪)</p>
+                <p id="achievement-castle" class="achievement locked">Cookie Kingdom (Buy Cookie Castle)</p>
+                <p id="achievement-city" class="achievement locked">Empire Builder (Buy Cookie City)</p>
+            </div>
+            <div class="cookienews">
+                <div class="ticker">
+                    <span>Click, bake, repeat.</span>
+                    <span>Grandma is calling...</span>
+                    <span>Click Your Way to Cookie Glory!</span>
+                    <span>From Crumbs to Kingdom</span>
+                    <span>Life’s Better with a Few Million Cookies.</span>
+                    <span>Cookies. Lots of Them.</span>
+                </div>
+            </div>
+            <div class="options">
+                <div class="game-choices">
+                    <button id="save-game" class="reset-game">Save Game :)</button>
+                    <button id="reset-game" class="reset-game">Reset Game :(</button>
+                    <button id="share-game" class="reset-game">Share Game :)</button>
+                </div>
+            </div>
+        </section>
 
     </div>
     <div class="right-side">
@@ -34,26 +64,7 @@
             <h1>Shop 🎀</h1>
             <div class="shop-row-one">
                 <div class="shop-button">
-                    <button>
-                    <span class="shop-upgrade" data-content="Super Grandma">
-                        👵🏼
-                    </span>
-                    </button>
-                    <button class="shop-upgrade" data-content="Confetti Cookie">
-                    <span>
-                        🎉
-                    </span>
-                    </button>
-                    <button>
-                    <span class="shop-upgrade" data-content="Cookie Mall">
-                        🏬
-                    </span>
-                    </button>
-                    <button>
-                    <span class="shop-upgrade" data-content="Cookie Bear">
-                        🐻
-                    </span>
-                    </button>
+
                 </div>
             </div>
         </div>

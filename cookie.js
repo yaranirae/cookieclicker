@@ -37,10 +37,10 @@ class Upgrade {
             this.button.innerHTML = `${this.name} - Cost: ${Upgrade.formatNumber(this.cost)} 🍪 <br> (Level ${this.level})`;
 
             if (this.game.score >= this.cost) {
-                this.button.style.backgroundColor = "#fd6c84"; // Normal color
+                this.button.style.backgroundColor = "#fd6c84";
                 this.button.disabled = false;
             } else {
-                this.button.style.backgroundColor = "#f892a3"; // Grayed out when unavailable
+                this.button.style.backgroundColor = "#f892a3";
                 this.button.disabled = true;
             }
         }
@@ -79,8 +79,109 @@ class Upgrade {
 } // Class voor de upgrades
 
 
+class AchievementTracker {
+    constructor(game) {
+        this.game = game;
+        this.achievements = {
+            click: false,
+            '1k': false,
+            grandma: false,
+            city: false,
+            castle: false,
+            '10k': false
+        };
 
+        this.loadAchievements();
+        this.applyAchievements();
+    }
 
+    checkAchievements() {
+        if (!this.achievements.click && this.game.score > 0) {
+            this.unlock("click");
+        }
+
+        if (!this.achievements["1k"] && this.game.score >= 1000) {
+            this.unlock("1k");
+        }
+
+        if (!this.achievements.grandma && this.game.upgrades.find(u => u instanceof GrandmaUpgrade && u.level > 0)) {
+            this.unlock("grandma");
+        }
+
+        if (!this.achievements.city && this.game.upgrades.find(u => u instanceof CityUpgrade && u.level > 0)) {
+            this.unlock("city");
+        }
+
+        if (!this.achievements.castle && this.game.upgrades.find(u => u instanceof CastleUpgrade && u.level > 0)) {
+            this.unlock("castle");
+        }
+        if (!this.achievements["10k"] && this.game.score >= 10000) {
+            this.unlock("10k");
+        }
+
+    }
+
+    unlock(id) {
+        if (this.achievements[id]) return;
+
+        const el = document.getElementById(`achievement-${id}`);
+        if (el) {
+            el.classList.remove("locked");
+            el.classList.add("unlocked");
+            el.textContent += " ✅";
+        }
+
+        this.achievements[id] = true;
+        this.saveAchievements();
+    }
+
+    saveAchievements() {
+        localStorage.setItem("achievements", JSON.stringify(this.achievements));
+    }
+
+    loadAchievements() {
+        const saved = localStorage.getItem("achievements");
+        if (saved) {
+            this.achievements = JSON.parse(saved);
+        }
+    }
+
+    applyAchievements() {
+        for (const id in this.achievements) {
+            if (this.achievements[id]) {
+                const el = document.getElementById(`achievement-${id}`);
+                if (el) {
+                    el.classList.remove("locked");
+                    el.classList.add("unlocked");
+                    if (!el.textContent.includes("✅")) {
+                        el.textContent += " ✅";
+                    }
+                }
+            }
+        }
+    }
+
+    resetAchievements() {
+        this.achievements = {
+            click: false,
+            '1k': false,
+            grandma: false,
+            city: false,
+            castle: false,
+            '10k': false
+        };
+        localStorage.removeItem("achievements");
+
+        for (const id in this.achievements) {
+            const el = document.getElementById(`achievement-${id}`);
+            if (el) {
+                el.classList.remove("unlocked");
+                el.classList.add("locked");
+                el.textContent = el.textContent.replace(" ✅", "");
+            }
+        }
+    }
+}
 
 class ClickerUpgrade extends Upgrade {
     constructor(game) {
@@ -141,6 +242,8 @@ class CookieClicker {
         this.score = 0;
         this.cookiesPerSecond = 0;
         this.ui = new UIHandler();
+        this.achievementTracker = new AchievementTracker(this);
+
 
         this.cookieButton = document.getElementById("cookie-btn");
         this.resetButton = document.getElementById("reset-game");
@@ -170,6 +273,7 @@ class CookieClicker {
     incrementScore() {
         this.score++;
         this.updateGameState();
+        this.achievementTracker.checkAchievements();
     }
 
     updateGameState() {
@@ -178,8 +282,10 @@ class CookieClicker {
 
         this.upgrades.forEach(upgrade => upgrade.updateButtonState());
 
+        this.achievementTracker.checkAchievements();
         GameStorage.saveGame(this.score, this.cookiesPerSecond);
     }
+
 
     startAutoIncrement() {
         setInterval(() => {
@@ -201,6 +307,7 @@ class CookieClicker {
             this.score = 0;
             this.cookiesPerSecond = 0;
             this.upgrades.forEach(upgrade => upgrade.resetUpgrade());
+            this.achievementTracker.resetAchievements();
             this.updateGameState();
         }
     }
