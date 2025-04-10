@@ -36,10 +36,6 @@ body {
     text-align: center;
 }
 
-.bakery-name input::placeholder {
-
-}
-
 #cookie-btn {
     transform: translateY(10%);
     font-size: 50px;
@@ -448,7 +444,7 @@ section .set div:nth-child(8) {
     overflow-y: auto;
     width: 325px;
     padding: 10px;
-    background: pink;
+    background: #ffb3c0;
     border-radius: 10px;
 }
 
