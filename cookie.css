@@ -22,9 +22,10 @@ body {
 .bakery-name {
     margin-bottom: 10px;
     font-weight: bold;
-    font-size: large;
+    font-size: 22px;
     width: 200px;
-    height: 20px;
+    height: 30px;
+    color: #df3e59;
     background: transparent;
     box-shadow: rgba(0, 0, 0, 0.24) 0 3px 8px;
     border-radius: 15px;
@@ -32,14 +33,11 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+    text-align: center;
 }
 
-.bakery-name input {
-    border: none;
-    outline: none;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+.bakery-name input::placeholder {
+
 }
 
 #cookie-btn {
@@ -58,7 +56,9 @@ body {
 }
 
 .cookie {
-    background-color: #fdf2dc;
+    background: linear-gradient(-45deg, #fd6c84, #ffe4c0, #f6b6b6, #ffe4c0);
+    background-size: 400% 400%;
+    animation: gradient 15s ease infinite;
     width: 450px;
     height: 100%;
     display: flex;
@@ -66,6 +66,17 @@ body {
     justify-content: center;
     align-items: center;
 
+}
+@keyframes gradient {
+    0% {
+        background-position: 0 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0 50%;
+    }
 }
 
 .cookies {
@@ -93,6 +104,19 @@ body {
     justify-content: center;
     align-items: center;
 }
+
+.counter {
+    position: absolute;
+    top: -40px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 24px;
+    color: #fd244a;
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+}
+
+
 /* EIND LINKER KANT VAN WEBSITE*/
 
 /* BEGIN MIDDEN VAN WEBSITE CSS*/
@@ -150,20 +174,21 @@ body {
     padding: 10px;
     margin: 7px;
     border: none;
-    background-color: #fd6c84;
+    background: linear-gradient(-45deg, #fd6c84, #f88fa3);
     color: #ffffff;
     border-radius: 5px;
 }
 
 .cookienews {
-    background-color: #fad2d9;
+    background: linear-gradient(lightpink, #ff9aac);
     width: 520px;
     border-radius: 10px;
-    color: #fd244a;
+    color: #ff2e53;
     overflow: hidden;
     white-space: nowrap;
     /*box-shadow: 0 2px 4px rgba(0,0,0,0.3);*/
     padding: 10px 0;
+    font-weight: bold;
 }
 .ticker {
     display: inline-block;
@@ -288,7 +313,7 @@ section .set div:nth-child(8) {
 .reset-game {
     width: 120px;
     padding: 3px;
-    background-color: #ccad70;
+    background-color: #fd244a;
     color: white;
     transition: background-color 0.2s ease;
     border-radius: 2px;
@@ -296,7 +321,7 @@ section .set div:nth-child(8) {
 }
 
 .reset-game:hover {
-    background-color: #e5c88f;
+    background-color: #fd5675;
 }
 
 .click-upgrades {
@@ -311,6 +336,32 @@ section .set div:nth-child(8) {
 .upgrade-place {
     font-size: 25px;
 }
+
+.save-alert {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    background: linear-gradient(#fd3256, #fd5675);
+    color: white;
+    padding: 12px 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    font-weight: bold;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    z-index: 9999;
+}
+
+.save-alert.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.hidden {
+    display: none;
+}
+
 
 /*EIND MIDDEN VAN WEBSITE CSS*/
 
@@ -415,12 +466,12 @@ section .set div:nth-child(8) {
 }
 
 .upgrades::-webkit-scrollbar-thumb {
-    background: #fd244a;
+    background: linear-gradient(#fd244a, #ff7891);
     border-radius: 10px;
 }
 
 .upgrades::-webkit-scrollbar-thumb:hover {
-    background: #fd5774;
+    background: #ff7a91;
 }
 /* EIND UPGRADES/AUTO-CLICKERS CSS*/
 

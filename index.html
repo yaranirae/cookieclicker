@@ -2,21 +2,25 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title id="count">Cookie Clicker 🍪</title>
+    <title id="count">🍪</title>
     <link rel="stylesheet" href="cookie.css">
     <link rel="icon" type="image/logo" href="img/cookie.png">
     <script src="cookie.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
 </head>
 <body>
 <div class="game-container">
     <div class="cookie">
-        <label>
-            <input type="text" class="bakery-name" placeholder="Bakery Name" required>
-        </label>
+        <form>
+            <label>
+                <input type="text" class="bakery-name" placeholder="Bakery Name" required>
+            </label>
+        </form>
         <div id="score" class="cookie-score">0</div>
         <div class="cookies">cookies</div>
         <div id="cookie-ps" class="cookie-psc">0</div>
         <img src="img/cookie.png" alt="" id="cookie-btn">
+        <div id="counter" class="counter">+1</div>
     </div>
     <div class="achievements">
         <section>
@@ -35,18 +39,25 @@
                 <p id="achievement-click" class="achievement locked">First Click! </p>
                 <p id="achievement-1k" class="achievement locked">Cookie Fanatic (1.000 cookies 🍪)</p>
                 <p id="achievement-grandma" class="achievement locked">Baker's Apprentice (Buy Grandma)</p>
+                <p id="achievement-grandma10" class="achievement locked">Grandma Army (Have 10 Grandmas)</p>
                 <p id="achievement-10k" class="achievement locked"> Cookie Obsessed (10.000 cookies 🍪)</p>
-                <p id="achievement-castle" class="achievement locked">Cookie Kingdom (Buy Cookie Castle)</p>
+                <p id="achievement-castle" class="achievement locked">Kingdom Crumbs (Buy Cookie Castle)</p>
                 <p id="achievement-city" class="achievement locked">Empire Builder (Buy Cookie City)</p>
+                <p id="achievement-country" class="achievement locked">Sweet President (Buy Cookie Country)</p>
+                <p id="achievement-100k" class="achievement locked">Cookie Enthusiast (100.000 cookies 🍪)</p>
+                <p id="achievement-1m" class="achievement locked">Baker's Dream (1.000.000 cookies 🍪)</p>
             </div>
             <div class="cookienews">
                 <div class="ticker">
                     <span>Click, bake, repeat.</span>
                     <span>Grandma is calling...</span>
                     <span>Click Your Way to Cookie Glory!</span>
-                    <span>From Crumbs to Kingdom</span>
+                    <span>From Crumbs to Kingdom.</span>
                     <span>Life’s Better with a Few Million Cookies.</span>
                     <span>Cookies. Lots of Them.</span>
+                    <span>Can You Stop Clicking? Didn’t Think So.</span>
+                    <span>Bake It Till You Make It.</span>
+                    <span>Tap to Bake.</span>
                 </div>
             </div>
             <div class="options">
@@ -54,6 +65,9 @@
                     <button id="save-game" class="reset-game">Save Game :)</button>
                     <button id="reset-game" class="reset-game">Reset Game :(</button>
                     <button id="share-game" class="reset-game">Share Game :)</button>
+
+                    <div id="save-alert" class="save-alert hidden">Game saved! 💾</div>
+
                 </div>
             </div>
         </section>
@@ -69,34 +83,35 @@
             </div>
         </div>
         <div class="upgrades">
-            <button id="Cookie Clicker" type="button" class="upgrade" data-content="Auto-Clicker - Cost: 50 🍪">
+            <button id="Cookie Clicker" type="button" class="upgrade" title="Auto-Clicker - Cost: 50 🍪" data-content="Auto-Clicker - Cost: 50 🍪">
                 <span class="cookie-place">Auto-Clicker - Cost: 50 🍪</span>
             </button>
-            <button id="Cookie Grandma" type="button" class="upgrade" data-content="Cookie Grandma - Cost: 200 🍪">
+            <button id="Cookie Grandma" type="button" class="upgrade" title="Cookie Grandma - Cost: 200 🍪" data-content="Cookie Grandma - Cost: 200 🍪">
                 <span class="cookie-place">Cookie Grandma - Cost: 200 🍪</span>
             </button>
-            <button id="Cookie Farm" type="button" class="upgrade" data-content="Cookie Farm - Cost: 500 🍪">
+            <button id="Cookie Farm" type="button" class="upgrade" title="Cookie Farm - Cost: 500 🍪" data-content="Cookie Farm - Cost: 500 🍪">
                 <span class="cookie-place">Cookie Farm - Cost: 500 🍪</span>
             </button>
-            <button id="Cookie Mine" type="button" class="upgrade" data-content="Cookie Mine - Cost: 1.000 🍪">
+            <button id="Cookie Mine" type="button" class="upgrade" title="Cookie Mine - Cost: 1.000 🍪" data-content="Cookie Mine - Cost: 1.000 🍪">
                 <span class="cookie-place">Cookie Mine - Cost: 1.000 🍪</span>
             </button>
-            <button id="Cookie Factory" type="button" class="upgrade" data-content="Cookie Factory - Cost: 2.000 🍪">
+            <button id="Cookie Factory" type="button" class="upgrade" title="Cookie Factory - Cost: 2.000 🍪" data-content="Cookie Factory - Cost: 2.000 🍪">
                 <span class="cookie-place">Cookie Factory - Cost: 2.000 🍪</span>
             </button>
-            <button id="Cookie Bank" type="button" class="upgrade" data-content="Cookie Bank - Cost: 5.000🍪">
+            <button id="Cookie Bank" type="button" class="upgrade" title="Cookie Bank - Cost: 5.000 🍪" data-content="Cookie Bank - Cost: 5.000 🍪">
                 <span class="cookie-place">Cookie Bank - Cost: 5.000 🍪</span>
             </button>
-            <button id="Cookie Castle" type="button" class="upgrade" data-content="Cookie Castle - Cost: 10.000🍪">
+            <button id="Cookie Castle" type="button" class="upgrade" title="Cookie Castle - Cost: 10.000 🍪" data-content="Cookie Castle - Cost: 10.000 🍪">
                 <span class="cookie-place">Cookie Castle - Cost: 10.000 🍪</span>
             </button>
-            <button id="Cookie City" type="button" class="upgrade" data-content="Cookie City - Cost: 20.000🍪">
+            <button id="Cookie City" type="button" class="upgrade" title="Cookie City - Cost: 20.000 🍪" data-content="Cookie City - Cost: 20.000 🍪">
                 <span class="cookie-place">Cookie City - Cost: 20.000 🍪</span>
             </button>
-            <button id="Cookie Country" type="button" class="upgrade" data-content="Cookie Country - Cost: 50.000🍪">
+            <button id="Cookie Country" type="button" class="upgrade" title="Cookie Country - Cost: 50.000 🍪" data-content="Cookie Country - Cost: 50.000 🍪">
                 <span class="cookie-place">Cookie Country - Cost: 50.000 🍪</span>
             </button>
-            </div>
+
+        </div>
     </div>
 
 </div>

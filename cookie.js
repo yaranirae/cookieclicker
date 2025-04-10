@@ -86,9 +86,13 @@ class AchievementTracker {
             click: false,
             '1k': false,
             grandma: false,
+            grandma10: false,
             city: false,
             castle: false,
-            '10k': false
+            country: false,
+            '10k': false,
+            '100k': false,
+            '1m': false
         };
 
         this.loadAchievements();
@@ -108,6 +112,10 @@ class AchievementTracker {
             this.unlock("grandma");
         }
 
+        if (!this.achievements.grandma10 && this.game.upgrades.find(u => u instanceof GrandmaUpgrade && u.level >= 10)) {
+            this.unlock("grandma10");
+        }
+
         if (!this.achievements.city && this.game.upgrades.find(u => u instanceof CityUpgrade && u.level > 0)) {
             this.unlock("city");
         }
@@ -115,10 +123,22 @@ class AchievementTracker {
         if (!this.achievements.castle && this.game.upgrades.find(u => u instanceof CastleUpgrade && u.level > 0)) {
             this.unlock("castle");
         }
+
+        if (!this.achievements.country && this.game.upgrades.find(u => u instanceof CountryUpgrade && u.level > 0)) {
+            this.unlock("country");
+        }
+
         if (!this.achievements["10k"] && this.game.score >= 10000) {
             this.unlock("10k");
         }
 
+        if (!this.achievements["100k"] && this.game.score >= 100000) {
+            this.unlock("100k");
+        }
+
+        if (!this.achievements["1m"] && this.game.score >= 1000000) {
+            this.unlock("1m");
+        }
     }
 
     unlock(id) {
@@ -131,9 +151,20 @@ class AchievementTracker {
             el.textContent += " ✅";
         }
 
+        this.triggerConfetti();
+
         this.achievements[id] = true;
         this.saveAchievements();
     }
+
+    triggerConfetti() {
+        confetti({
+            particleCount: 200,
+            spread: 70,
+            origin: { y: 0.6 }
+        });
+    }
+
 
     saveAchievements() {
         localStorage.setItem("achievements", JSON.stringify(this.achievements));
@@ -166,9 +197,13 @@ class AchievementTracker {
             click: false,
             '1k': false,
             grandma: false,
+            grandma10: false,
             city: false,
             castle: false,
-            '10k': false
+            country: false,
+            '10k': false,
+            '100k': false,
+            '1m': false
         };
         localStorage.removeItem("achievements");
 
@@ -241,12 +276,15 @@ class CookieClicker {
     constructor() {
         this.score = 0;
         this.cookiesPerSecond = 0;
+        this.totalClicks = 0;
         this.ui = new UIHandler();
         this.achievementTracker = new AchievementTracker(this);
 
-
         this.cookieButton = document.getElementById("cookie-btn");
         this.resetButton = document.getElementById("reset-game");
+
+        this.bakeryNameInput = document.querySelector(".bakery-name");
+        this.loadBakeryName();
 
         this.upgrades = [
             new ClickerUpgrade(this),
@@ -268,10 +306,35 @@ class CookieClicker {
     setupEventListeners() {
         this.cookieButton.addEventListener("click", () => this.incrementScore());
         this.resetButton.addEventListener("click", () => this.resetGame());
+        this.bakeryNameInput.addEventListener("input", () => this.saveBakeryName());
+
+        this.saveButton = document.getElementById("save-game");
+        this.saveButton.addEventListener("click", () => {
+            GameStorage.saveGame(this.score, this.cookiesPerSecond);
+            showCustomAlert("Game saved! 💾");
+        });
+
+
+    }
+
+
+    saveBakeryName() {
+        const bakeryName = this.bakeryNameInput.value.trim();
+        if (bakeryName) {
+            localStorage.setItem("bakeryName", bakeryName);
+        }
+    }
+
+    loadBakeryName() {
+        const savedBakeryName = localStorage.getItem("bakeryName");
+        if (savedBakeryName) {
+            this.bakeryNameInput.value = savedBakeryName;
+        }
     }
 
     incrementScore() {
         this.score++;
+        this.totalClicks++;
         this.updateGameState();
         this.achievementTracker.checkAchievements();
     }
@@ -285,7 +348,6 @@ class CookieClicker {
         this.achievementTracker.checkAchievements();
         GameStorage.saveGame(this.score, this.cookiesPerSecond);
     }
-
 
     startAutoIncrement() {
         setInterval(() => {
@@ -301,6 +363,8 @@ class CookieClicker {
         this.updateGameState();
     }
 
+
+
     resetGame() {
         if (confirm("Are you sure you want to reset your progress?")) {
             GameStorage.resetGame();
@@ -309,9 +373,25 @@ class CookieClicker {
             this.upgrades.forEach(upgrade => upgrade.resetUpgrade());
             this.achievementTracker.resetAchievements();
             this.updateGameState();
+
+            localStorage.removeItem("bakeryName");
+            this.bakeryNameInput.value = "";
         }
     }
 } // Class voor de game
+
+function showCustomAlert(message = "Game saved!") {
+    const alertBox = document.getElementById("save-alert");
+    alertBox.textContent = message;
+    alertBox.classList.remove("hidden");
+    alertBox.classList.add("show");
+
+    setTimeout(() => {
+        alertBox.classList.remove("show");
+        alertBox.classList.add("hidden");
+    }, 2000); // verdwijnt na 2 seconden
+}
+
 
 class GameStorage {
     static saveGame(score, cookiesPerSecond) {
@@ -346,8 +426,11 @@ class UIHandler {
     }
 
     updateScore(score) {
-        this.scoreDisplay.textContent = UIHandler.formatNumber(score);
+        const formattedScore = UIHandler.formatNumber(score);
+        this.scoreDisplay.textContent = formattedScore;
+        document.title = `${formattedScore} cookies 🍪 - Cookie Clicker`; // ← update title here
     }
+
 
     updateCPS(cps) {
         this.cpsDisplay.textContent = `${UIHandler.formatNumber(cps)} cookies per second`;
