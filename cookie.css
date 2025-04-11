@@ -19,6 +19,16 @@ body {
 }
 
 /* BEGIN LINKER KANT VAN WEBSITE CSS*/
+
+.cake {
+    /*position: absolute;*/
+    top: 50%;
+    left: 10%;
+    transform: translateY(-50%);
+    cursor: pointer;
+}
+
+
 .bakery-name {
     margin-bottom: 10px;
     font-weight: bold;
@@ -204,7 +214,7 @@ section {
     position: relative;
     width: 630px;
     height: 100vh;
-    background: #ffe4c0;
+    background: linear-gradient(#ffe4c0, #fdd6a1);
     overflow: hidden;
     display: flex;
     flex-direction: column;
@@ -300,6 +310,15 @@ section .set div:nth-child(8) {
     }
 }
 
+#timer {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #ff627d;
+    text-align: center;
+    margin-top: 10px;
+}
+
+
 .game-choices {
     display: flex;
     flex-direction: row;
@@ -356,6 +375,15 @@ section .set div:nth-child(8) {
 
 .hidden {
     display: none;
+}
+
+.special-upgrade {
+    font-size: 16px;
+    border: none;
+    padding: 8px;
+    border-radius: 7px;
+    background-color: #fd8498;
+    color: white;
 }
 
 
@@ -444,7 +472,7 @@ section .set div:nth-child(8) {
     overflow-y: auto;
     width: 325px;
     padding: 10px;
-    background: #ffb3c0;
+    background: #fba2b1;
     border-radius: 10px;
 }
 
@@ -477,7 +505,7 @@ section .set div:nth-child(8) {
     flex-direction: column;
     align-items: center;
     gap: 10px;
-    background-color: #fad2d9;
+    background: linear-gradient(-90deg, #fde3e8, #fdbdc9);
     width: 450px;
     height: 100%;
 }

@@ -37,10 +37,10 @@ class Upgrade {
             this.button.innerHTML = `${this.name} - Cost: ${Upgrade.formatNumber(this.cost)} 🍪 <br> (Level ${this.level})`;
 
             if (this.game.score >= this.cost) {
-                this.button.style.backgroundColor = "#fd6c84";
+                this.button.style.backgroundColor = "#ff627d";
                 this.button.disabled = false;
             } else {
-                this.button.style.backgroundColor = "#f892a3";
+                this.button.style.backgroundColor = "#ed8696";
                 this.button.disabled = true;
             }
         }
@@ -314,7 +314,6 @@ class CookieClicker {
             showCustomAlert("Game saved! 💾");
         });
 
-
     }
 
 
@@ -364,7 +363,6 @@ class CookieClicker {
     }
 
 
-
     resetGame() {
         if (confirm("Are you sure you want to reset your progress?")) {
             GameStorage.resetGame();
@@ -378,6 +376,8 @@ class CookieClicker {
             this.bakeryNameInput.value = "";
         }
     }
+
+
 } // Class voor de game
 
 function showCustomAlert(message = "Game saved!") {
