@@ -428,7 +428,7 @@ class UIHandler {
     updateScore(score) {
         const formattedScore = UIHandler.formatNumber(score);
         this.scoreDisplay.textContent = formattedScore;
-        document.title = `${formattedScore} cookies 🍪 - Cookie Clicker`; // ← update title here
+        document.title = `${formattedScore} cookies 🍪 - Cookie Clicker`;
     }
 
 
