@@ -30,7 +30,6 @@ body {
 
 
 .bakery-name {
-    margin-bottom: 10px;
     font-weight: bold;
     font-size: 22px;
     width: 200px;
@@ -403,6 +402,31 @@ section .set div:nth-child(8) {
     border-radius: 10px;
 }
 
+.shop::-webkit-scrollbar {
+    width: 10px;
+}
+
+.shop::-webkit-scrollbar-track {
+    background: transparent;
+    border-radius: 10px;
+}
+
+.shop::-webkit-scrollbar-thumb {
+    background: linear-gradient(#fd244a, #ff7891);
+    border-radius: 10px;
+}
+
+.shop::-webkit-scrollbar-thumb:hover {
+    background: #ff7a91;
+}
+
+.shop-button {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    justify-items: center;
+    align-items: center;
+}
 .shop h1 {
     display: flex;
     justify-content: center;
@@ -440,16 +464,17 @@ section .set div:nth-child(8) {
     justify-content: center;
     align-items: center;
 }
+
 /* EIND SHOP CSS*/
 
 
 /* BEGIN UPGRADES/AUTO-CLICKERS CSS*/
 .upgrade {
-   font-size: medium;
+    font-size: medium;
 }
 .upgrades button {
     width: 300px;
-    padding: 10px;
+    padding: 8px;
     margin: 7px;
     border: none;
     background-color: #fd6c84;
@@ -509,12 +534,3 @@ section .set div:nth-child(8) {
     width: 450px;
     height: 100%;
 }
-
-/* EIND RECHTER KANT VAN WEBSITE CSS*/
-
-
-
-
-
-
-
