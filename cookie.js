@@ -148,6 +148,9 @@ class AchievementTracker {
         if (el) {
             el.classList.remove("locked");
             el.classList.add("unlocked");
+
+            // Prevent multiple checkmarks
+            el.textContent = el.textContent.replace(" ✅", "");
             el.textContent += " ✅";
         }
 
@@ -518,6 +521,7 @@ class ShopHandler {
             new ShopUpgrade("Pastry Paradise", 550000, "production", game),
             new ShopUpgrade("Chocolate Storm", 600000, "production", game),
             new ShopUpgrade("Marshmallow Magic", 650000, "production", game),
+
             new ShopUpgrade("Cookie Grandma", 200, "efficiency", game, game.upgrades.find(u => u instanceof GrandmaUpgrade)),
             new ShopUpgrade("Cookie Farm", 500, "efficiency", game, game.upgrades.find(u => u instanceof FarmUpgrade)),
             new ShopUpgrade("Cookie Mine", 1000, "efficiency", game, game.upgrades.find(u => u instanceof MineUpgrade)),
@@ -540,5 +544,3 @@ document.addEventListener("DOMContentLoaded", () => {
 
     setInterval(() => shopHandler.updateShopState(), 1000);
 });
-
-document.addEventListener("DOMContentLoaded", () => new CookieClicker());

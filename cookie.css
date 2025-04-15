@@ -435,23 +435,26 @@ section .set div:nth-child(8) {
 
 .shop-button {
     display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+    flex-wrap: wrap;
     gap: 10px;
+    justify-content: center; /* or 'flex-start' if you want them aligned left */
 }
 
 .shop-button button {
-    color: white;
-    border: #fd4767 4px dotted;
-    border-radius: 5px ;
     width: 60px;
-    padding: 5px;
-    background-color: #fd6c84;
+    height: 60px;
+    font-size: 24px;
+    border-radius: 5px;
+    border: none;
+    background-color: #ffe4c0;
+    cursor: pointer;
+    transition: transform 0.1s ease;
 }
+
 
 .shop-button button:hover {
     background-color: #fd8498;
+    transform: scale(1.1);
 }
 
 .shop-button span {
