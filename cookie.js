@@ -27,8 +27,6 @@ class Upgrade {
             this.updateButtonState();
             this.game.updateGameState();
             this.saveUpgrade();
-        } else {
-            alert("Not enough cookies!");
         }
     } // Kopen van upgrades/auto-clicker
 
@@ -480,8 +478,6 @@ class ShopUpgrade {
             this.cost = Math.floor(this.cost * 1.5);
             this.updateButtonState();
             this.game.updateGameState();
-        } else {
-            alert("Not enough cookies!");
         }
     }
 
@@ -522,14 +518,14 @@ class ShopHandler {
             new ShopUpgrade("Chocolate Storm", 600000, "production", game),
             new ShopUpgrade("Marshmallow Magic", 650000, "production", game),
 
-            new ShopUpgrade("Cookie Grandma", 200, "efficiency", game, game.upgrades.find(u => u instanceof GrandmaUpgrade)),
-            new ShopUpgrade("Cookie Farm", 500, "efficiency", game, game.upgrades.find(u => u instanceof FarmUpgrade)),
-            new ShopUpgrade("Cookie Mine", 1000, "efficiency", game, game.upgrades.find(u => u instanceof MineUpgrade)),
-            new ShopUpgrade("Cookie Factory", 2000, "efficiency", game, game.upgrades.find(u => u instanceof FactoryUpgrade)),
-            new ShopUpgrade("Cookie Bank", 5000, "efficiency", game, game.upgrades.find(u => u instanceof BankUpgrade)),
-            new ShopUpgrade("Cookie Castle", 10000, "efficiency", game, game.upgrades.find(u => u instanceof CastleUpgrade)),
-            new ShopUpgrade("Cookie City", 20000, "efficiency", game, game.upgrades.find(u => u instanceof CityUpgrade)),
-            new ShopUpgrade("Cookie Country", 50000, "efficiency", game, game.upgrades.find(u => u instanceof CountryUpgrade))
+            // new ShopUpgrade("Cookie Grandma", 200, "efficiency", game, game.upgrades.find(u => u instanceof GrandmaUpgrade)),
+            // new ShopUpgrade("Cookie Farm", 500, "efficiency", game, game.upgrades.find(u => u instanceof FarmUpgrade)),
+            // new ShopUpgrade("Cookie Mine", 1000, "efficiency", game, game.upgrades.find(u => u instanceof MineUpgrade)),
+            // new ShopUpgrade("Cookie Factory", 2000, "efficiency", game, game.upgrades.find(u => u instanceof FactoryUpgrade)),
+            // new ShopUpgrade("Cookie Bank", 5000, "efficiency", game, game.upgrades.find(u => u instanceof BankUpgrade)),
+            // new ShopUpgrade("Cookie Castle", 10000, "efficiency", game, game.upgrades.find(u => u instanceof CastleUpgrade)),
+            // new ShopUpgrade("Cookie City", 20000, "efficiency", game, game.upgrades.find(u => u instanceof CityUpgrade)),
+            // new ShopUpgrade("Cookie Country", 50000, "efficiency", game, game.upgrades.find(u => u instanceof CountryUpgrade))
         ];
     }
 
