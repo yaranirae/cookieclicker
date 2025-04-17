@@ -450,30 +450,32 @@ class UIHandler {
 
 
 class ShopUpgrade {
-    constructor(button, game) {
-        this.button = button;
+    constructor(id, cost, type, game, targetUpgrade = null) {
+        this.id = id;
+        this.cost = cost;
+        this.type = type;
         this.game = game;
-        this.name = button.id;
-        this.description = button.title.split(" . ")[1] || "Unknown Description";
-        const costMatch = button.title.match(/Cost: ([\d,]+)/);
-        this.cost = costMatch ? parseInt(costMatch[1].replace(/,/g, "")) : 0;
-        this.type = this.description.includes("Twice Efficient") ? "efficiency" : "boost";
+        this.targetUpgrade = targetUpgrade;
+        this.button = document.getElementById(id);
 
-        this.button.addEventListener("click", () => this.purchase());
-        this.updateButtonState();
+        if (this.button) {
+            this.button.addEventListener("click", () => this.purchase());
+            this.updateButtonState();
+        }
     }
 
     purchase() {
         if (this.game.score >= this.cost) {
             this.game.score -= this.cost;
 
-            if (this.type === "efficiency") {
-                this.applyEfficiencyUpgrade();
-            } else if (this.type === "boost") {
-                this.applyBoostUpgrade();
+            if (this.type === "efficiency" && this.targetUpgrade) {
+                this.targetUpgrade.cps *= 2;
+                this.button.title = `${this.targetUpgrade.name} is now twice as efficient!`;
+            } else if (this.type === "production") {
+                this.game.cookiesPerSecond = Math.floor(this.game.cookiesPerSecond * 1.02);
             }
 
-            this.cost = Math.floor(this.cost * 1.25);
+            this.cost = Math.floor(this.cost * 1.5);
             this.updateButtonState();
             this.game.updateGameState();
         } else {
@@ -481,52 +483,53 @@ class ShopUpgrade {
         }
     }
 
-    applyEfficiencyUpgrade() {
-        const targetName = this.description.match(/Makes (.+) Twice Efficient/)[1];
-        const targetUpgrade = this.game.upgrades.find(upgrade => upgrade.name === targetName);
-        if (targetUpgrade) {
-            const additionalCPS = targetUpgrade.cps; // Calculate the additional CPS from doubling
-            targetUpgrade.cps *= 2;
-            this.game.cookiesPerSecond += additionalCPS; // Add the additional CPS to the game's total CPS
-            this.game.totalCookiesPerSecond += additionalCPS; // Ensure it counts towards total production
-        }
-    }
-
-    applyBoostUpgrade() {
-        const boostPercentage = parseFloat(this.description.match(/\+([\d.]+)%/)[1]) / 100;
-        const additionalCPS = this.game.cookiesPerSecond * (1 + boostPercentage); // Apply the boost as a multiplier
-        this.game.cookiesPerSecond = additionalCPS; // Update the game's total CPS
-        this.game.totalCookiesPerSecond = additionalCPS; // Ensure it counts towards total production
-    }
-
     updateButtonState() {
-        this.button.title = `${this.name} . ${this.description} . Cost: ${ShopUpgrade.formatNumber(this.cost)} 🍪`;
-        this.button.dataset.content = `${this.name} - Cost: ${ShopUpgrade.formatNumber(this.cost)} 🍪`;
+        if (this.button) {
+            this.button.title = `${this.id} - Cost: ${ShopUpgrade.formatNumber(this.cost)} 🍪`;
+            this.button.dataset.content = `${this.id} - Cost: ${ShopUpgrade.formatNumber(this.cost)} 🍪`;
 
-        if (this.game.score >= this.cost) {
-            this.button.disabled = false;
-            this.button.style.backgroundColor = "#fd6c84";
-        } else {
-            this.button.disabled = true;
-            this.button.style.backgroundColor = "#fd8498";
+            if (this.game.score >= this.cost) {
+                this.button.disabled = false;
+                this.button.style.backgroundColor = "#ff627d";
+            } else {
+                this.button.disabled = true;
+                this.button.style.backgroundColor = "#ed8696";
+            }
         }
     }
 
     static formatNumber(num) {
-        return num.toLocaleString("en-US");
+        return num >= 1_000_000 ? (num / 1_000_000).toFixed(1) + " million" : num.toLocaleString("en-US");
     }
 }
 
-class Shop {
+class ShopHandler {
     constructor(game) {
         this.game = game;
-        this.shopButtons = Array.from(document.querySelectorAll(".shop-upgrade"));
-        this.upgrades = this.shopButtons.map(button => new ShopUpgrade(button, game));
+        this.shopUpgrades = [
+            new ShopUpgrade("Sugar Rush", 10000, "production", game),
+            new ShopUpgrade("Cookie Monster", 150000, "production", game),
+            new ShopUpgrade("Golden Cookie", 200000, "production", game),
+            new ShopUpgrade("Doughnut Dream", 250000, "production", game),
+            new ShopUpgrade("Cinnamon Swirl", 300000, "production", game),
+            new ShopUpgrade("Caramel Crunch", 350000, "production", game),
+            new ShopUpgrade("Frosted Delight", 400000, "production", game),
+            new ShopUpgrade("Macaron Madness", 450000, "production", game),
+            new ShopUpgrade("Baker’s Secret", 500000, "production", game),
+            new ShopUpgrade("Pastry Paradise", 550000, "production", game),
+            new ShopUpgrade("Chocolate Storm", 600000, "production", game),
+            new ShopUpgrade("Marshmallow Magic", 650000, "production", game),
+        ];
+    }
+
+    updateShopState() {
+        this.shopUpgrades.forEach(upgrade => upgrade.updateButtonState());
     }
 }
 
 document.addEventListener("DOMContentLoaded", () => {
     const game = new CookieClicker();
-    game.totalCookiesPerSecond = game.cookiesPerSecond; // Initialize total production tracking
-    new Shop(game);
+    const shopHandler = new ShopHandler(game);
+
+    setInterval(() => shopHandler.updateShopState(), 1000);
 });
